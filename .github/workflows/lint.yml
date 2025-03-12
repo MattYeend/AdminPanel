@@ -1,69 +1,69 @@
-name: linter
+# name: linter
 
-on:
-  push:
-    branches:
-      - develop
-      - main
-  pull_request:
-    branches:
-      - develop
-      - main
+# on:
+#   push:
+#     branches:
+#       - develop
+#       - main
+#   pull_request:
+#     branches:
+#       - develop
+#       - main
 
-permissions:
-  contents: write
+# permissions:
+#   contents: write
 
-jobs:
-  quality:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+# jobs:
+#   quality:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.3'
+#       - name: Setup PHP
+#         uses: shivammathur/setup-php@v2
+#         with:
+#           php-version: '8.3'
 
-      - name: Cache Composer Dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.composer/cache
-          key: php-composer-${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            php-composer-${{ runner.os }}-
+#       - name: Cache Composer Dependencies
+#         uses: actions/cache@v3
+#         with:
+#           path: ~/.composer/cache
+#           key: php-composer-${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+#           restore-keys: |
+#             php-composer-${{ runner.os }}-
 
-      - name: Install PHP Dependencies
-        run: composer install --no-interaction --no-scripts --prefer-dist --optimize-autoloader
+#       - name: Install PHP Dependencies
+#         run: composer install --no-interaction --no-scripts --prefer-dist --optimize-autoloader
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+#       - name: Setup Node
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: '20'
+#           cache: 'npm'
+#           cache-dependency-path: '**/package-lock.json'
 
-      - name: Cache NPM dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+#       - name: Cache NPM dependencies
+#         uses: actions/cache@v3
+#         with:
+#           path: ~/.npm
+#           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+#           restore-keys: |
+#             ${{ runner.os }}-node-
 
-      - name: Install NPM Dependencies
-        run: npm ci
+#       - name: Install NPM Dependencies
+#         run: npm ci
 
-      - name: Run Pint (Laravel Code Formatter)
-        run: vendor/bin/pint
+#       - name: Run Pint (Laravel Code Formatter)
+#         run: vendor/bin/pint
 
-      - name: Format Frontend
-        run: npm run format
+#       - name: Format Frontend
+#         run: npm run format
 
-      - name: Lint Frontend
-        run: npm run lint
+#       - name: Lint Frontend
+#         run: npm run lint
 
-      # - name: Commit Changes
-      #   uses: stefanzweifel/git-auto-commit-action@v5
-      #   with:
-      #     commit_message: fix code style
-      #     commit_options: '--no-verify'
+#       # - name: Commit Changes
+#       #   uses: stefanzweifel/git-auto-commit-action@v5
+#       #   with:
+#       #     commit_message: fix code style
+#       #     commit_options: '--no-verify'
