@@ -13,11 +13,43 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('title');
+            $table->string('first_name');
+            $table->string('middle_name')->nullable();
+            $table->string('last_name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->string('profile_picture')->nullable();
+            $table->string('cv_path')->nullable();
+            $table->string('cover_letter_path')->nullable();
+            $table->string('phone')->nullable();
+            $table->integer('salary');
+            $table->string('first_line');
+            $table->string('second_line')->nullable();
+            $table->string('town')->nullable();
+            $table->string('city')->nullable();
+            $table->string('county')->nullable();
+            $table->string('country');
+            $table->string('post_code');
+            $table->string('full_or_part');
+            $table->string('region');
+            $table->string('timezone');
+            $table->date('start_date');
+            $table->date('end_date')->nullable();
+            $table->boolean('is_live')->default(true);
+            $table->enum('role', ['user', 'admin', 'super admin'])->default('user');
+            $table->enum('seniority', ['junior', 'mid', 'senior'])->default('junior');
+            $table->unsignedBigInteger('department_id')->nullable();
+            $table->unsignedBigInteger('job_id')->nullable();
+            $table->unsignedBigInteger('holiday_entitlement_id')->nullable();
+            $table->unsignedBigInteger('contact_id')->nullable();
+            $table->unsignedBigInteger('contract_id')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->unsignedBigInteger('deleted_by')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
 
