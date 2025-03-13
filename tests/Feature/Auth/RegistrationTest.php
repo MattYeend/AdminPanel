@@ -4,15 +4,11 @@ namespace Tests\Feature\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Hash;
 
 class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-    }
 
     public function test_registration_screen_can_be_rendered()
     {
@@ -32,7 +28,12 @@ class RegistrationTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'email' => 'test@example.com',
+            'first_name' => 'Test',
+            'last_name' => 'User',
         ]);
+
+        $user = \App\Models\User::where('email', 'test@example.com')->first();
+        $this->assertTrue(Hash::check('password', $user->password));
 
         $this->assertAuthenticated();
 
