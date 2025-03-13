@@ -3,7 +3,6 @@
 namespace Tests\Feature\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
 class RegistrationTest extends TestCase
@@ -13,14 +12,11 @@ class RegistrationTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        Artisan::call('migrate');
     }
 
     public function test_registration_screen_can_be_rendered()
     {
         $response = $this->get('/register');
-
         $response->assertStatus(200);
     }
 
@@ -33,7 +29,7 @@ class RegistrationTest extends TestCase
             'password' => 'password',
             'password_confirmation' => 'password',
         ]);
-    
+
         $this->assertDatabaseHas('users', [
             'email' => 'test@example.com',
         ]);
