@@ -11,12 +11,28 @@ class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_login_screen_can_be_rendered()
+    protected function setUp(): void
     {
+        parent::setUp();
+
+        // Check if there's at least one tenant in the database
         $tenant = Tenant::first();
 
-        app()->instance(Tenant::class, $tenant);
-    
+        // If no tenant exists, create a mock tenant for testing
+        if (!$tenant) {
+            // Create a tenant instance (you can mock this if necessary)
+            $tenant = Tenant::create([
+                'name' => 'Test Tenant',
+                'domain' => 'test-tenant.local',
+            ]);
+        }
+
+        // Set the current tenant for the application
+        Tenant::setCurrent($tenant); 
+    }
+
+    public function test_login_screen_can_be_rendered()
+    {    
         $response = $this->get('/login');
     
         $response->assertStatus(200);
