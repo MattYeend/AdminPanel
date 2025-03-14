@@ -18,7 +18,7 @@ class AuthenticationTest extends TestCase
 
         // Check if there's at least one tenant in the database
         $tenant = AppTenant::first(); // Use the aliased model here
-
+    
         // If no tenant exists, create a mock tenant for testing
         if (!$tenant) {
             // Create a tenant instance with mass assignable fields
@@ -27,9 +27,10 @@ class AuthenticationTest extends TestCase
                 'domain' => 'test-tenant.local', // This is your domain
             ]);
         }
-
-        // Manually set the current tenant for the application manually (without using a helper)
-        $this->app->instance(Tenant::class, $tenant);
+    
+        // Set the current tenant for the application
+        // Ensure you're using the correct tenant model that is expected by the Spatie package
+        tenant()->initialize($tenant); 
     }
 
 
