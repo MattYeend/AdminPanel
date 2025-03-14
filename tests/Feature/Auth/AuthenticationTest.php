@@ -5,6 +5,7 @@ namespace Tests\Feature\Auth;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Spatie\Multitenancy\Models\Tenant;
 
 class AuthenticationTest extends TestCase
 {
@@ -12,8 +13,12 @@ class AuthenticationTest extends TestCase
 
     public function test_login_screen_can_be_rendered()
     {
-        $response = $this->get('/login');
+        $tenant = Tenant::first();
 
+        app()->instance(Tenant::class, $tenant);
+    
+        $response = $this->get('/login');
+    
         $response->assertStatus(200);
     }
 
