@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
+use Spatie\Multitenancy\Models\Tenant;
 use App\Models\User;
-use Spatie\Multitenancy\Models\Tenant;  // Import only the Tenant from Spatie package
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -19,16 +19,20 @@ class DashboardTest extends TestCase
 
     public function test_authenticated_users_can_visit_the_dashboard()
     {
+        // Create a tenant
         $tenant = Tenant::create([
             'name' => 'Test Tenant',
         ]);
 
-        app()->instance(Tenant::class, $tenant);
+        // Manually initialize the tenant
+        Tenant::initialize($tenant);
 
+        // Create and authenticate a user
         $user = User::factory()->create();
-        $this->actingAs($user);
+        $this->actingAs($user);  // Authenticate the user
 
+        // Visit the dashboard as the authenticated user with the tenant context
         $response = $this->get('/dashboard');
-        $response->assertStatus(200);
+        $response->assertStatus(200);  // Ensure the response is OK
     }
 }
