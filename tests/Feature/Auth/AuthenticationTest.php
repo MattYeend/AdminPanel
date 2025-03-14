@@ -5,7 +5,7 @@ namespace Tests\Feature\Auth;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Spatie\Multitenancy\Models\Tenant;
+use App\Models\Tenant;
 
 class AuthenticationTest extends TestCase
 {
@@ -20,15 +20,15 @@ class AuthenticationTest extends TestCase
 
         // If no tenant exists, create a mock tenant for testing
         if (!$tenant) {
-            // Create a tenant instance (you can mock this if necessary)
+            // Create a tenant instance with mass assignable fields
             $tenant = Tenant::create([
                 'name' => 'Test Tenant',
-                'domain' => 'test-tenant.local',
+                'domain' => 'test-tenant.local', // This is your domain
             ]);
         }
 
         // Set the current tenant for the application
-        Tenant::setCurrent($tenant); 
+        Tenant::setCurrent($tenant);
     }
 
     public function test_login_screen_can_be_rendered()
