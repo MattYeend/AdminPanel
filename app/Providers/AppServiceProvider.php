@@ -20,6 +20,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if (!function_exists('tenant')) {
+            function tenant() {
+                return app('tenant');
+            }
+        }
     }
 }
