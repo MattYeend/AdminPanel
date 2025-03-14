@@ -5,8 +5,8 @@ namespace Tests\Feature\Auth;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\Tenant as AppTenant;
-use Spatie\Multitenancy\Models\Tenant;
+use App\Models\Tenant;
+// use Spatie\Multitenancy\Models\Tenant;
 
 class AuthenticationTest extends TestCase
 {
