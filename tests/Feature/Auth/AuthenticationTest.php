@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\Tenant as AppTenant; // Alias the model Tenant
-use Spatie\Multitenancy\Models\Tenant;  // Alias the facade
+use Illuminate\Support\Facades\Auth; 
 
 class AuthenticationTest extends TestCase
 {
@@ -28,8 +28,9 @@ class AuthenticationTest extends TestCase
             ]);
         }
 
-        // Set the current tenant for the application using the full path
-        Tenant::setCurrent($tenant); 
+        // Set the current tenant for the application manually
+        // The package typically uses a "tenant" helper or a service container binding
+        $this->app->instance('tenant', $tenant);
     }
 
 
