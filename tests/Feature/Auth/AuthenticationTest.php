@@ -16,16 +16,16 @@ class AuthenticationTest extends TestCase
     {
         parent::setUp();
 
-        $tenant = AppTenant::first();
-    
+        $tenant = Tenant::first();
+
         if (!$tenant) {
-            $tenant = AppTenant::create([
+            $tenant = Tenant::create([
                 'name' => 'Test Tenant',
                 'domain' => 'test-tenant.local',
             ]);
         }
-    
-        tenant()->initialize($tenant); 
+
+        $tenant->makeCurrent();
     }
 
 
