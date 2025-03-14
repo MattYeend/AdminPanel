@@ -2,7 +2,8 @@
 
 namespace Tests\Feature;
 
-use Spatie\Multitenancy\Models\Tenant;
+
+use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -13,26 +14,29 @@ class DashboardTest extends TestCase
 
     public function test_guests_are_redirected_to_the_login_page()
     {
+        // Test that guests are redirected to the login page
         $response = $this->get('/dashboard');
         $response->assertRedirect('/login');
     }
 
     public function test_authenticated_users_can_visit_the_dashboard()
     {
-        // Create a tenant
+        // Create a new tenant
         $tenant = Tenant::create([
-            'name' => 'Test Tenant',
+            'name' => 'Test Tenant', // Add any other attributes you need
         ]);
 
-        // Manually initialize the tenant
+        // Manually initialize the tenant (if necessary based on your multitenancy setup)
         Tenant::initialize($tenant);
 
-        // Create and authenticate a user
-        $user = User::factory()->create();
+        // Create a verified user
+        $user = User::factory()->create([
+            'email_verified_at' => now(), // Ensure the user is verified
+        ]);
         $this->actingAs($user);  // Authenticate the user
 
-        // Visit the dashboard as the authenticated user with the tenant context
+        // Visit the dashboard as the authenticated user
         $response = $this->get('/dashboard');
-        $response->assertStatus(200);  // Ensure the response is OK
+        $response->assertStatus(200);  // Ensure the response is OK (200)
     }
 }
