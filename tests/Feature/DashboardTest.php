@@ -22,12 +22,9 @@ class DashboardTest extends TestCase
     public function test_authenticated_users_can_visit_the_dashboard()
     {
         $tenant = Tenant::create([
-            'name' => 'Test Tenant', // Add any other attributes you need
-            'domain' => 'test-tenant.com', // Provide a value for the domain field
+            'name' => 'Test Tenant',
+            'domain' => 'test-tenant.com',
         ]);
-    
-        // Manually initialize the tenant (if necessary based on your multitenancy setup)
-        Tenant::initialize($tenant);
     
         // Create a verified user
         $user = User::factory()->create([

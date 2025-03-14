@@ -45,9 +45,12 @@ class RegistrationTest extends TestCase
         ]);
     
         $response->assertSessionDoesntHaveErrors();
-        
-        // Log the user in after registration
+    
+        // Ensure the user is created
         $user = \App\Models\User::where('email', 'test@example.com')->first();
+        $this->assertNotNull($user);  // Ensure the user is found
+    
+        // Log the user in after registration
         $this->actingAs($user);  // Authenticate the user
         $user->email_verified_at = now();  // Mark the user as verified
         $user->save();
