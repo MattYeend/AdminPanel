@@ -28,8 +28,8 @@ class AuthenticationTest extends TestCase
             ]);
         }
 
-        // Set the current tenant for the application manually
-        app()->instance(Tenant::class, $tenant); 
+        // Manually set the current tenant for the application manually (without using a helper)
+        $this->app->instance(Tenant::class, $tenant);
     }
 
 
