@@ -5,7 +5,8 @@ namespace Tests\Feature\Auth;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\Tenant;
+use App\Models\Tenant as AppTenant; // Alias the model Tenant
+use Spatie\Multitenancy\Models\Tenant;  // Alias the facade
 
 class AuthenticationTest extends TestCase
 {
@@ -16,20 +17,21 @@ class AuthenticationTest extends TestCase
         parent::setUp();
 
         // Check if there's at least one tenant in the database
-        $tenant = Tenant::first();
+        $tenant = AppTenant::first(); // Use the aliased model here
 
         // If no tenant exists, create a mock tenant for testing
         if (!$tenant) {
             // Create a tenant instance with mass assignable fields
-            $tenant = Tenant::create([
+            $tenant = AppTenant::create([
                 'name' => 'Test Tenant',
                 'domain' => 'test-tenant.local', // This is your domain
             ]);
         }
 
-        // Set the current tenant for the application
-        Tenant::setCurrent($tenant);
+        // Set the current tenant for the application using the full path
+        Tenant::setCurrent($tenant); 
     }
+
 
     public function test_login_screen_can_be_rendered()
     {    
