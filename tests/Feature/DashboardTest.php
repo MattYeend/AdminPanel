@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Spatie\Multitenancy\Models\Tenant;  // Import only the Tenant from Spatie package
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -18,6 +19,12 @@ class DashboardTest extends TestCase
 
     public function test_authenticated_users_can_visit_the_dashboard()
     {
+        $tenant = Tenant::create([
+            'name' => 'Test Tenant',
+        ]);
+
+        app()->instance(Tenant::class, $tenant);
+
         $user = User::factory()->create();
         $this->actingAs($user);
 
